@@ -39,7 +39,7 @@ Este repositório contém:
 
 Confira abaixo as principais atividades desenvolvidas nesta disciplina:
 
-- [Atividade sobre caixeiro viajante - Delivery AG](doc/01-delivery-ag.md)
+- [Atividade sobre caixeiro viajante - Delivery AG](doc/classroom-tasks/01-delivery-ag.md)
 
 ## Autores
 

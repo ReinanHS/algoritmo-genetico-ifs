@@ -61,7 +61,7 @@ Para mais detalhes sobre a atividade, recomendamos consultar o link abaixo:
 ## Soluções desenvolvidas
 
 - Solução simples
-  - [Python - Console](src/python/caixeiro-viajante/index.md)
+  - [Python - Console](../../src/python/caixeiro-viajante-simple/index.md)
 
 ## Referências
 
