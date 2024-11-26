@@ -9,5 +9,5 @@ O principal objetivo dessa solução é apresentar um esboço inicial de como se
 Para realizar a execução desta tarefa, utilize o seguinte comando em seu computador, dentro do nosso ambiente:
 
 ```shell
-python3 __init__.py
+python3 src/python/caixeiro-viajante-simple/__init__.py
 ```
