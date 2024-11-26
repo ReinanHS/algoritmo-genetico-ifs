@@ -41,6 +41,77 @@ Confira abaixo as principais atividades desenvolvidas nesta disciplina:
 
 - [Atividade sobre caixeiro viajante - Delivery AG](doc/classroom-tasks/01-delivery-ag.md)
 
+## Ementa
+
+Teoria da Evolução. Introdução à inteligência computacional e aos algoritmos 
+evolucionários. Introdução aos algoritmos genéticos. Terminologia. Características do 
+algoritmo genético. Ciclo Genético. Representação cromossomial. Seleção de pais. Função 
+de aptidão. Cruzamento. Mutação. Elitismo. Aplicação de algoritmos genéticos. Algoritmos 
+genéticos híbridos e paralelos.
+
+## Bibliografia Básica
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://www.amazon.com.br/Intelig%C3%AAncia-Artificial-Abordagem-Aprendizado-M%C3%A1quina/dp/8521637349">
+        <img src="https://m.media-amazon.com/images/I/81FYVwJNC2L._SY466_.jpg" height="150px" width="100px;" alt="Inteligência Artificial - Uma Abordagem de Aprendizado de Máquina"/>
+      </a>
+      <br />
+      <a href="https://www.amazon.com.br/Intelig%C3%AAncia-Artificial-Abordagem-Aprendizado-M%C3%A1quina/dp/8521637349">ISBN 9788521618805</a>
+    </td>
+    <td align="center">
+      <a href="https://www.amazon.com.br/Intelig%C3%AAncia-artificial-George-Luger/dp/8581435505">
+        <img src="https://m.media-amazon.com/images/I/611KRrdG7rL._SY466_.jpg" height="150px" width="100px;" alt="Inteligência artificial"/>
+      </a>
+      <br />
+      <a href="https://www.amazon.com.br/Intelig%C3%AAncia-artificial-George-Luger/dp/8581435505">ISBN 9788581435503</a>
+    </td>
+    <td align="center">
+      <a href="https://www.amazon.com.br/Intelig%C3%AAncia-Artificial-Peter-Norvig/dp/8535237011">
+        <img src="https://m.media-amazon.com/images/I/91+VjYJPcjL._SY466_.jpg" height="150px" width="100px;" alt="Inteligência Artificial"/>
+      </a>
+      <br />
+      <a href="https://www.amazon.com.br/Intelig%C3%AAncia-Artificial-Peter-Norvig/dp/8535237011">ISBN 9788535237016</a>
+    </td>
+  </tr>
+</table>
+
+## Bibliografia Complementar
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://www.amazon.com.br/Intelig%C3%AAncia-Artificial-Te%C3%B3rica-Pr%C3%A1tica-Olivette/dp/8578610296">
+        <img src="https://m.media-amazon.com/images/I/91f5espAHCL._SY466_.jpg" height="150px" width="100px;" alt="Inteligência Artificial: Teórica e Prática"/>
+      </a>
+      <br />
+      <a href="https://www.amazon.com.br/Intelig%C3%AAncia-Artificial-Te%C3%B3rica-Pr%C3%A1tica-Olivette/dp/8578610296">ISBN 9788578610296</a>
+    </td>
+    <td align="center">
+      <a href="https://www.amazon.com.br/Intelig%C3%AAncia-Artificial-Abordagem-Aprendizado-M%C3%A1quina/dp/8521618808">
+        <img src="https://m.media-amazon.com/images/I/81s53YfC9GL._SY466_.jpg" height="150px" width="100px;" alt="Inteligência Artificial - Uma Abordagem de Aprendizado de Máquina"/>
+      </a>
+      <br />
+      <a href="https://www.amazon.com.br/Intelig%C3%AAncia-Artificial-Abordagem-Aprendizado-M%C3%A1quina/dp/8521618808">ISBN 9788521618805</a>
+    </td>
+    <td align="center">
+      <a href="https://www.amazon.com.br/Otimiza%C3%A7%C3%A3o-Combinat%C3%B3ria-Meta-heur%C3%ADsticas-Algoritmos-Aplica%C3%A7%C3%B5es/dp/8535278125">
+        <img src="https://m.media-amazon.com/images/I/81cVj1739zL._SY466_.jpg" height="150px" width="100px;" alt="Otimização Combinatória e Meta-heurísticas - Algoritmos e Aplicações"/>
+      </a>
+      <br />
+      <a href="https://www.amazon.com.br/Otimiza%C3%A7%C3%A3o-Combinat%C3%B3ria-Meta-heur%C3%ADsticas-Algoritmos-Aplica%C3%A7%C3%B5es/dp/8535278125">ISBN-10 8535278125</a>
+    </td>
+    <td align="center">
+      <a href="https://www.amazon.com.br/Intelig%C3%AAncia-Artificial-Isa%C3%ADas-Lima/dp/8535278087">
+        <img src="https://m.media-amazon.com/images/I/81NDaA2lgiL._SY466_.jpg" height="150px" width="100px;" alt="Inteligência Artificial"/>
+      </a>
+      <br />
+      <a href="https://www.amazon.com.br/Intelig%C3%AAncia-Artificial-Isa%C3%ADas-Lima/dp/8535278087">ISBN 8535278087</a>
+    </td>
+  </tr>
+</table>
+
 ## Autores
 
 Veja abaixo os principais alunos responsáveis por gerenciar este repositório, adicionando novas implementações e mantendo-o atualizado:
