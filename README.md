@@ -35,6 +35,12 @@ Este repositório contém:
 - Resultados documentados de experimentações.
 - Arquivos úteis para estudo e ensino do tema.
 
+## Atividades
+
+Confira abaixo as principais atividades desenvolvidas nesta disciplina:
+
+- [Atividade sobre caixeiro viajante - Delivery AG](doc/01-delivery-ag.md)
+
 ## Autores
 
 Veja abaixo os principais alunos responsáveis por gerenciar este repositório, adicionando novas implementações e mantendo-o atualizado:
