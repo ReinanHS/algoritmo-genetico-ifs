@@ -1,14 +1,15 @@
 from random import random
 
-from entity import Individuo
+from individuo import Individuo
 
 class AlgoritmoGenetico:
-    def __init__(self, tamanho_populacao):
+    def __init__(self, tamanho_populacao, debug_mode = False):
         self.tamanho_populacao = tamanho_populacao
         self.populacao = []
         self.lista_solucoes = []
         self.lista_pais = []
         self.melhor_solucao = None
+        self.debug_mode = debug_mode
 
     def inicializa_populacao(self, cidades, rotas, caminho):
         for i in range(self.tamanho_populacao):
@@ -34,12 +35,31 @@ class AlgoritmoGenetico:
         return soma
 
     def visualiza_geracao(self):
+        if not self.debug_mode:
+            return
+
         print(
             " ***** \n",
             "Geração: %s \n" % self.populacao[0].geracao,
             "Melhor solução: %s \n" % self.populacao[0].nota_avaliacao,
+            "Melhor distância percorrida: %s \n" % self.populacao[0].distancia_percorrida,
+            "Melhor total de cidades percorridas: %s \n" % self.populacao[0].cidades_percorridas,
             "Melhor Cromossomo: %s \n" % str(self.populacao[0].cromossomo_to_view()),
             "***** \n",
+        )
+
+    def visualiza_melhor_geracao(self):
+        if not self.debug_mode:
+            return
+
+        print(
+            " ***** (Melhor solução) ***** \n",
+            "Geração: %s \n" % self.melhor_solucao.geracao,
+            "Melhor solução: %s \n" % self.melhor_solucao.nota_avaliacao,
+            "Melhor distância percorrida: %s \n" % self.melhor_solucao.distancia_percorrida,
+            "Melhor total de cidades percorridas: %s \n" % self.melhor_solucao.cidades_percorridas,
+            "Melhor Cromossomo: %s \n" % str(self.melhor_solucao.cromossomo_to_view()),
+            "***** ================ *****\n",
         )
 
     def gerar_probabilidade(self):
@@ -95,9 +115,30 @@ class AlgoritmoGenetico:
             self.melhor_individuo(melhor)
             self.lista_solucoes.append(melhor.nota_avaliacao)
 
-        print("\nMelhor solução -> G: %s \nValor: %s \nCromossomo: %s" %
-              (self.melhor_solucao.geracao,
-               self.melhor_solucao.nota_avaliacao,
-               self.melhor_solucao.cromossomo_to_view()))
+        self.visualiza_melhor_geracao()
+        return self.melhor_solucao
 
-        return self.melhor_solucao.cromossomo
+class AlgoritmoGeneticoDinamicamente:
+    def __init__(self, tamanho_populacao = 100, taxa_mutacao = 0.05, numero_geracoes = 100, debug_mode = False):
+        self.tamanho_populacao = tamanho_populacao
+        self.taxa_mutacao = taxa_mutacao
+        self.numero_geracoes = numero_geracoes
+        self.debug_mode = debug_mode
+
+        self.melhores_resultados = []
+        self.melhores_solucoes = []
+        self.melhor_solucao = None
+
+    def buscar_melhor_solucao(self, cidades, rotas, rotas_entrega, numero_tentativas = 50):
+        self.melhores_resultados = []
+        self.melhores_solucoes = []
+
+        for i in range(numero_tentativas):
+            ag = AlgoritmoGenetico(self.tamanho_populacao, self.debug_mode)
+            ag.resolver(self.taxa_mutacao, self.numero_geracoes, cidades, rotas, rotas_entrega)
+
+            self.melhores_resultados.append(ag.melhor_solucao)
+            self.melhores_solucoes.append(ag.melhor_solucao.nota_avaliacao)
+
+        self.melhores_resultados = sorted(self.melhores_resultados, key=lambda individuo: individuo.nota_avaliacao, reverse=False)
+        self.melhor_solucao = self.melhores_resultados[0]

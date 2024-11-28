@@ -1,6 +1,7 @@
-from entity import Cidade
-from algoritmo import AlgoritmoGenetico
+from cidade import Cidade
+from ag import AlgoritmoGeneticoDinamicamente
 import matplotlib.pyplot as plt
+from view import ViewGraph
 
 cidades = [
     Cidade("X"),
@@ -20,25 +21,22 @@ rotas = [
     [-1, -1, 20, -1, -1, -1],
 ]
 
-caminho = [2,3,5]
+rotas_entrega = [2, 3, 5]
+
 taxa_mutacao = 0.05
 numero_geracoes = 100
+tamanho_populacao = 15
+debug_mode = False
 
-melhores_resultados = []
-melhores_solucoes = []
-
-for i in range(10):
-    ag = AlgoritmoGenetico(20)
-    ag.resolver(taxa_mutacao, numero_geracoes, cidades, rotas, caminho)
-
-    melhores_resultados.append(ag.melhor_solucao)
-    melhores_solucoes.append(ag.melhor_solucao.nota_avaliacao)
-
-melhores_resultados = sorted(melhores_resultados,key=lambda individuo: individuo.nota_avaliacao,reverse=False)
+ag = AlgoritmoGeneticoDinamicamente(tamanho_populacao, taxa_mutacao, numero_geracoes, debug_mode)
+ag.buscar_melhor_solucao(cidades, rotas, rotas_entrega)
 
 print("\n\n O melhor resultado: \n")
-melhores_resultados[0].print()
+ag.melhor_solucao.print()
 
-plt.plot(melhores_solucoes)
+plt.plot(ag.melhores_solucoes)
 plt.title("Acompanhamento dos valores")
 plt.show()
+
+view = ViewGraph(cidades, rotas, ag.melhor_solucao)
+view.desenhar().show()
