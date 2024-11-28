@@ -94,6 +94,7 @@ class ViewGraphEvolution:
     def __init__(self, cidades, rotas, melhores_resultados):
         os.makedirs(".cache", exist_ok=True)
         pos = self.criar_estrutura_desenho(cidades, rotas)
+        melhores_resultados = self.remover_repeticoes(melhores_resultados)
 
         for i, individuo in enumerate(melhores_resultados):
             output_path = f".cache/{i}.png"
@@ -132,3 +133,23 @@ class ViewGraphEvolution:
             loop=1
         )
         print(f"GIF salvo em: {gif_path}")
+
+    @staticmethod
+    def remover_repeticoes(resultados):
+        resultados = sorted(resultados, key=lambda individuo: individuo.nota_avaliacao, reverse=True)
+
+        resultados_filtrados = []
+        contador_repeticoes = 0
+        ultimo_valor = None
+
+        for individuo in resultados:
+            if individuo.nota_avaliacao == ultimo_valor:
+                contador_repeticoes += 1
+            else:
+                contador_repeticoes = 1
+                ultimo_valor = individuo.nota_avaliacao
+
+            if contador_repeticoes <= 1:
+                resultados_filtrados.append(individuo)
+
+        return resultados_filtrados

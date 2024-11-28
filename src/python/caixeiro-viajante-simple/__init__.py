@@ -44,4 +44,4 @@ pos = ViewGraphEvolution.criar_estrutura_desenho(cidades, rotas)
 view = ViewGraph(cidades, rotas, ag.melhor_solucao, pos)
 view.desenhar(ag.melhor_solucao.geracao).show()
 
-# ViewGraphEvolution(cidades, rotas, sorted(ag.debug_populacao, key=lambda individuo: individuo.nota_avaliacao, reverse=True))
+ViewGraphEvolution(cidades, rotas, ag.debug_populacao)
