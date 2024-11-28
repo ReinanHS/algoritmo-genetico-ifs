@@ -1,7 +1,9 @@
 from cidade import Cidade
 from ag import AlgoritmoGeneticoDinamicamente
-import matplotlib.pyplot as plt
 from view import ViewGraph
+from view import ViewGraphEvolution
+
+import matplotlib.pyplot as plt
 
 cidades = [
     Cidade("X"),
@@ -38,5 +40,8 @@ plt.plot(ag.melhores_solucoes)
 plt.title("Acompanhamento dos valores")
 plt.show()
 
-view = ViewGraph(cidades, rotas, ag.melhor_solucao)
-view.desenhar().show()
+pos = ViewGraphEvolution.criar_estrutura_desenho(cidades, rotas)
+view = ViewGraph(cidades, rotas, ag.melhor_solucao, pos)
+view.desenhar(ag.melhor_solucao.geracao).show()
+
+# ViewGraphEvolution(cidades, rotas, sorted(ag.debug_populacao, key=lambda individuo: individuo.nota_avaliacao, reverse=True))

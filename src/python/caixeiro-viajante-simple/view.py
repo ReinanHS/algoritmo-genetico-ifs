@@ -1,12 +1,15 @@
 import matplotlib.pyplot as plt
 import networkx as nx
+import os
+from PIL import Image
 
 class ViewGraph:
-    def __init__(self, cidades, rotas, individuo):
+    def __init__(self, cidades, rotas, individuo, pos):
         self.cidades = cidades
         self.rotas = rotas
         self.individuo = individuo
         self.caminho_percorrido = []
+        self.pos = pos
 
         for i in individuo.cromossomo:
             self.caminho_percorrido.append(cidades[i].nome)
@@ -23,13 +26,14 @@ class ViewGraph:
                 if self.rotas[i][j] > 0:
                     self.graph.add_edge(self.cidades[i].nome, self.cidades[j].nome, weight=self.rotas[i][j])
 
-    def desenhar(self):
-        pos = nx.spring_layout(self.graph, weight='weight')
-
+    def desenhar(self, index):
         node_colors = []
         for node in self.graph.nodes:
             if node in self.caminho_percorrido:
-                node_colors.append("red")
+                if node == self.caminho_percorrido[0]:
+                    node_colors.append("green")
+                else:
+                    node_colors.append("red")
             else:
                 node_colors.append("skyblue")
 
@@ -44,34 +48,40 @@ class ViewGraph:
 
         plt.figure(figsize=(10, 8))
 
-        nx.draw_networkx_edges(self.graph, pos, edgelist=normal_edges, alpha=0.7, edge_color='gray')
+        nx.draw_networkx_edges(self.graph, self.pos, edgelist=normal_edges, alpha=0.7, edge_color='gray')
+        nx.draw_networkx_edges(self.graph, self.pos, edgelist=highlighted_edges, width=2.5, edge_color='red')
 
-        nx.draw_networkx_edges(self.graph, pos, edgelist=highlighted_edges, width=2.5, edge_color='red')
+        if len(self.caminho_percorrido) > 1:
+            nx.draw_networkx_edges(
+                self.graph, self.pos,
+                edgelist=[(self.caminho_percorrido[0], self.caminho_percorrido[1])],
+                width=3.5, edge_color='green'
+            )
 
         edge_labels = {(u, v): d['weight'] for u, v, d in self.graph.edges(data=True)}
-        nx.draw_networkx_edge_labels(self.graph, pos, edge_labels=edge_labels)
+        nx.draw_networkx_edge_labels(self.graph, self.pos, edge_labels=edge_labels)
 
         nx.draw(
             self.graph,
-            pos,
+            self.pos,
             with_labels=True,
             node_color=node_colors,
             node_size=2000,
             font_weight='bold'
         )
 
-        plt.subplots_adjust(right=0.55)
-
         legenda_texto = (
+            "Geração: %s\n" % index +
             "Cromossomo: %s\n" % self.individuo.cromossomo_to_view() +
             "Distância percorrida: %s km\n" % self.individuo.distancia_percorrida +
             "Cidades percorridas: %s\n" % self.individuo.cidades_percorridas +
             "Avaliação: %s\n" % self.individuo.nota_avaliacao
         )
 
+        plt.subplots_adjust(right=0.55)
         plt.text(
             1.0, 0.1, legenda_texto,
-            fontsize=14,
+            fontsize=10,
             ha='left',
             va='top',
             transform=plt.gca().transAxes,
@@ -79,3 +89,46 @@ class ViewGraph:
         )
 
         return plt
+
+class ViewGraphEvolution:
+    def __init__(self, cidades, rotas, melhores_resultados):
+        os.makedirs(".cache", exist_ok=True)
+        pos = self.criar_estrutura_desenho(cidades, rotas)
+
+        for i, individuo in enumerate(melhores_resultados):
+            output_path = f".cache/{i}.png"
+            view = ViewGraph(cidades, rotas, individuo, pos)
+            plt_obj = view.desenhar(i)
+            plt_obj.savefig(output_path, format="PNG")
+            plt_obj.close()
+
+        self.criar_gif(len(melhores_resultados))
+
+    @staticmethod
+    def criar_estrutura_desenho(cidades, rotas):
+        temp_graph = nx.Graph()
+        for cidade in cidades:
+            temp_graph.add_node(cidade.nome)
+        for i in range(len(rotas)):
+            for j in range(len(rotas)):
+                if rotas[i][j] > 0:
+                    temp_graph.add_edge(cidades[i].nome, cidades[j].nome)
+        return nx.spring_layout(temp_graph, weight='weight')
+
+    @staticmethod
+    def criar_gif(num_images):
+        frames = []
+        for i in range(num_images):
+            image_path = f".cache/{i}.png"
+            frames.append(Image.open(image_path))
+
+        gif_path = "evolucao.gif"
+        frames[0].save(
+            gif_path,
+            save_all=True,
+            append_images=frames[1:],
+            optimize=True,
+            duration=300,
+            loop=1
+        )
+        print(f"GIF salvo em: {gif_path}")

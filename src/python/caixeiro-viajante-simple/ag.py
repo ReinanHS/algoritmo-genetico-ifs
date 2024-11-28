@@ -9,12 +9,15 @@ class AlgoritmoGenetico:
         self.lista_solucoes = []
         self.lista_pais = []
         self.melhor_solucao = None
+
         self.debug_mode = debug_mode
+        self.debug_populacao = []
 
     def inicializa_populacao(self, cidades, rotas, caminho):
         for i in range(self.tamanho_populacao):
             self.populacao.append(Individuo(cidades, rotas, caminho))
         self.melhor_solucao = self.populacao[0]
+        self.debug_populacao.append(self.populacao[0])
 
     def ordena_populacao(self):
         self.populacao = sorted(
@@ -113,6 +116,7 @@ class AlgoritmoGenetico:
 
             melhor = self.populacao[0]
             self.melhor_individuo(melhor)
+            self.debug_populacao.append(melhor)
             self.lista_solucoes.append(melhor.nota_avaliacao)
 
         self.visualiza_melhor_geracao()
@@ -129,6 +133,8 @@ class AlgoritmoGeneticoDinamicamente:
         self.melhores_solucoes = []
         self.melhor_solucao = None
 
+        self.debug_populacao = []
+
     def buscar_melhor_solucao(self, cidades, rotas, rotas_entrega, numero_tentativas = 50):
         self.melhores_resultados = []
         self.melhores_solucoes = []
@@ -139,6 +145,7 @@ class AlgoritmoGeneticoDinamicamente:
 
             self.melhores_resultados.append(ag.melhor_solucao)
             self.melhores_solucoes.append(ag.melhor_solucao.nota_avaliacao)
+            self.debug_populacao = self.debug_populacao + ag.debug_populacao
 
         self.melhores_resultados = sorted(self.melhores_resultados, key=lambda individuo: individuo.nota_avaliacao, reverse=False)
         self.melhor_solucao = self.melhores_resultados[0]
