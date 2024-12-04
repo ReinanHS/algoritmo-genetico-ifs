@@ -7,17 +7,14 @@ class AlgoritmoGenetico:
         self.tamanho_populacao = tamanho_populacao
         self.populacao = []
         self.lista_solucoes = []
-        self.lista_pais = []
         self.melhor_solucao = None
 
         self.debug_mode = debug_mode
-        self.debug_populacao = []
 
-    def inicializa_populacao(self, cidades, rotas, caminho):
+    def inicializa_populacao(self, cidades, rotas, caminho, centro_distribuicao):
         for i in range(self.tamanho_populacao):
-            self.populacao.append(Individuo(cidades, rotas, caminho))
+            self.populacao.append(Individuo(cidades, rotas, caminho, centro_distribuicao))
         self.melhor_solucao = self.populacao[0]
-        self.debug_populacao.append(self.populacao[0])
 
     def ordena_populacao(self):
         self.populacao = sorted(
@@ -66,13 +63,17 @@ class AlgoritmoGenetico:
         )
 
     def gerar_probabilidade(self):
-        pesos = [1 / (i_ + 1) for i_ in range(self.tamanho_populacao)]
+        pesos = []
+
+        for i in range(len(self.populacao)):
+            pesos.append(1 / (i+1))
+
         soma_pesos = sum(pesos)
-        for i_ in range(self.tamanho_populacao):
-            self.populacao[i_].probabilidade = (pesos[i_] / soma_pesos) * 100
 
+        for j in range(len(self.populacao)):
+            self.populacao[j].probabilidade =  (pesos[j] / soma_pesos) * 100
 
-    def seleciona_pai(self, soma_avaliacao):
+    def seleciona_pai(self):
         cumulativas = []
         soma = 0
         for i in range(self.tamanho_populacao):
@@ -84,10 +85,10 @@ class AlgoritmoGenetico:
         for i, limite in enumerate(cumulativas):
             if numero_aleatorio < limite:
                 return i
-        return 0
+        return self.seleciona_pai()
 
-    def resolver(self, taxa_mutacao, numero_geracoes, cidades, rotas, caminho):
-        self.inicializa_populacao(cidades, rotas, caminho),
+    def resolver(self, taxa_mutacao, numero_geracoes, cidades, rotas, caminho, centro_distribuicao):
+        self.inicializa_populacao(cidades, rotas, caminho, centro_distribuicao),
         self.ordena_populacao()
         self.gerar_probabilidade()
         self.visualiza_geracao()
@@ -97,55 +98,28 @@ class AlgoritmoGenetico:
             soma_avaliacao = self.soma_avaliacoes()
             nova_populacao = []
 
-            for j in range(self.tamanho_populacao):
-                pai1 = self.seleciona_pai(soma_avaliacao)
-                pai2 = self.seleciona_pai(soma_avaliacao)
+            for j in range(0, self.tamanho_populacao, 2):
+                pai1 = self.seleciona_pai()
+                pai2 = self.seleciona_pai()
 
-                self.lista_pais.append(pai1)
-                self.lista_pais.append(pai2)
+                print("Pai 1: %", pai1, " - Pai 2: %", pai2)
 
                 filhos = self.populacao[pai1].crossover(self.populacao[pai2])
 
                 nova_populacao.append(filhos[0].mutacao(taxa_mutacao))
                 nova_populacao.append(filhos[1].mutacao(taxa_mutacao))
 
+            nova_populacao = nova_populacao[:-5]
+            nova_populacao = nova_populacao + self.populacao[0:5]
             self.populacao = list(nova_populacao)
+
             self.ordena_populacao()
             self.gerar_probabilidade()
             self.visualiza_geracao()
 
             melhor = self.populacao[0]
             self.melhor_individuo(melhor)
-            self.debug_populacao.append(melhor)
             self.lista_solucoes.append(melhor.nota_avaliacao)
 
         self.visualiza_melhor_geracao()
         return self.melhor_solucao
-
-class AlgoritmoGeneticoDinamicamente:
-    def __init__(self, tamanho_populacao = 100, taxa_mutacao = 0.05, numero_geracoes = 100, debug_mode = False):
-        self.tamanho_populacao = tamanho_populacao
-        self.taxa_mutacao = taxa_mutacao
-        self.numero_geracoes = numero_geracoes
-        self.debug_mode = debug_mode
-
-        self.melhores_resultados = []
-        self.melhores_solucoes = []
-        self.melhor_solucao = None
-
-        self.debug_populacao = []
-
-    def buscar_melhor_solucao(self, cidades, rotas, rotas_entrega, numero_tentativas = 50):
-        self.melhores_resultados = []
-        self.melhores_solucoes = []
-
-        for i in range(numero_tentativas):
-            ag = AlgoritmoGenetico(self.tamanho_populacao, self.debug_mode)
-            ag.resolver(self.taxa_mutacao, self.numero_geracoes, cidades, rotas, rotas_entrega)
-
-            self.melhores_resultados.append(ag.melhor_solucao)
-            self.melhores_solucoes.append(ag.melhor_solucao.nota_avaliacao)
-            self.debug_populacao = self.debug_populacao + ag.debug_populacao
-
-        self.melhores_resultados = sorted(self.melhores_resultados, key=lambda individuo: individuo.nota_avaliacao, reverse=False)
-        self.melhor_solucao = self.melhores_resultados[0]

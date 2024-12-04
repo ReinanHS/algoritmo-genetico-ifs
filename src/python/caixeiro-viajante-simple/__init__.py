@@ -1,8 +1,5 @@
 from cidade import Cidade
-from ag import AlgoritmoGeneticoDinamicamente
-from view import ViewGraph
-from view import ViewGraphEvolution
-
+from ag import AlgoritmoGenetico
 import matplotlib.pyplot as plt
 
 cidades = [
@@ -24,24 +21,19 @@ rotas = [
 ]
 
 rotas_entrega = [2, 3, 5]
+centro_distribuicao = 0
 
 taxa_mutacao = 0.05
 numero_geracoes = 100
-tamanho_populacao = 15
-debug_mode = False
+tamanho_populacao = 16
+debug_mode = True
 
-ag = AlgoritmoGeneticoDinamicamente(tamanho_populacao, taxa_mutacao, numero_geracoes, debug_mode)
-ag.buscar_melhor_solucao(cidades, rotas, rotas_entrega)
+ag = AlgoritmoGenetico(tamanho_populacao, debug_mode)
+ag.resolver(taxa_mutacao, numero_geracoes, cidades, rotas, rotas_entrega, centro_distribuicao)
 
 print("\n\n O melhor resultado: \n")
 ag.melhor_solucao.print()
 
-plt.plot(ag.melhores_solucoes)
+plt.plot(ag.lista_solucoes)
 plt.title("Acompanhamento dos valores")
 plt.show()
-
-pos = ViewGraphEvolution.criar_estrutura_desenho(cidades, rotas)
-view = ViewGraph(cidades, rotas, ag.melhor_solucao, pos)
-view.desenhar(ag.melhor_solucao.geracao).show()
-
-ViewGraphEvolution(cidades, rotas, ag.debug_populacao)
