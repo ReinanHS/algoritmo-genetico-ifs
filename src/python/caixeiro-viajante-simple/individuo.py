@@ -1,7 +1,37 @@
 from random import random
 
 class Individuo:
+    """
+    Representa um indivíduo no algoritmo genético.
+
+    Cada indivíduo é definido por um cromossomo que representa uma rota,
+    e seu desempenho é avaliado com base na distância total percorrida,
+    número de cidades visitadas, e outras regras do problema.
+
+    Atributos:
+    ----------
+    - cidades (list): Lista de cidades disponíveis.
+    - rotas (list): Matriz representando as distâncias entre as cidades.
+    - caminho (list): Lista de cidades obrigatórias a serem visitadas.
+    - centro_distribuicao (int): Cidade inicial e final obrigatória no percurso.
+    - geracao (int): Número da geração do indivíduo.
+    - cromossomo (list): Representação da sequência de cidades percorridas.
+    - distancia_percorrida (float): Distância total percorrida.
+    - cidades_percorridas (int): Número de cidades diferentes visitadas.
+    - nota_avaliacao (float): Avaliação da qualidade da rota.
+    """
     def __init__(self, cidades, rotas, caminho, centro_distribuicao, geracao=0, cromossomo=None):
+        """
+        Inicializa o indivíduo com os parâmetros fornecidos.
+
+        Args:
+        - cidades (list): Lista de cidades disponíveis.
+        - rotas (list): Matriz representando as distâncias entre as cidades.
+        - caminho (list): Lista de cidades obrigatórias no percurso.
+        - centro_distribuicao (int): Cidade inicial e final obrigatória.
+        - geracao (int): Número da geração atual.
+        - cromossomo (list): Rota inicial representada como uma sequência de índices.
+        """
         self.cidades = cidades
         self.rotas = rotas
         self.caminho = caminho
@@ -17,46 +47,64 @@ class Individuo:
         self.nota_avaliacao = self.avaliacao()
 
     def gerar_cromossomo(self):
-        caminho_aleatorio = []
-
-        for i in range(len(self.rotas)):
-            caminho_aleatorio.append(round((random() * (len(self.rotas) - 1))))
-
-        self.cromossomo = caminho_aleatorio
+        """
+        Gera um cromossomo aleatório representando uma sequência inicial de cidades.
+        """
+        self.cromossomo = [
+            round(random() * (len(self.rotas) - 1))
+            for _ in range(len(self.rotas))
+        ]
 
     def avaliacao(self):
+        """
+        Calcula a nota de avaliação do indivíduo com base no percurso representado pelo cromossomo.
+
+        Penalidades são aplicadas para rotas inválidas ou que não atendam aos requisitos.
+
+        Returns:
+        - (float): Nota de avaliação da rota.
+        """
         soma_distancia = 0
-        roda_encontrada = []
+        cidades_visitadas = []
 
         for i in range(len(self.cromossomo) - 1):
-            distancia = self.rotas[self.cromossomo[i]][self.cromossomo[i+1]]
-            if distancia == -1:
-                soma_distancia += 500
-            else:
-                soma_distancia += distancia
+            origem = self.cromossomo[i]
+            destino = self.cromossomo[i + 1]
+            distancia = self.rotas[origem][destino]
 
-            if self.cromossomo[i] in self.caminho and self.cromossomo[i] not in roda_encontrada:
-                roda_encontrada.append(self.cromossomo[i])
+            soma_distancia += 500 if distancia == -1 else distancia
+
+            if origem in self.caminho and origem not in cidades_visitadas:
+                cidades_visitadas.append(origem)
 
         self.distancia_percorrida = soma_distancia
-        self.cidades_percorridas = len(roda_encontrada)
+        self.cidades_percorridas = len(cidades_visitadas)
 
-        if len(roda_encontrada) != len(self.caminho):
-            soma_distancia += 100 * (len(self.caminho) - len(roda_encontrada))
+        # Penalidades por não visitar todas as cidades obrigatórias
+        cidades_faltando = len(self.caminho) - len(cidades_visitadas)
+        soma_distancia += 100 * cidades_faltando
 
+        # Penalidades por não começar ou terminar no centro de distribuição
         if self.cromossomo[0] != self.centro_distribuicao:
             soma_distancia += 100
-
-        if self.cromossomo[len(self.cromossomo) - 1] != self.centro_distribuicao:
+        if self.cromossomo[-1] != self.centro_distribuicao:
             soma_distancia += 100
 
         return soma_distancia
 
     def crossover(self, outro_individuo):
-        corte = round(random() * len(self.cromossomo))
+        """
+        Realiza o cruzamento com outro indivíduo para gerar dois filhos.
 
-        filho1 = outro_individuo.cromossomo[0:corte] + self.cromossomo[corte:len(self.cromossomo)]
-        filho2 = self.cromossomo[0:corte] + outro_individuo.cromossomo[corte:len(self.cromossomo)]
+        Args:
+        - outro_individuo (Individuo): Outro indivíduo para cruzamento.
+
+        Returns:
+        - (list): Lista com os dois indivíduos filhos gerados.
+        """
+        corte = round(random() * len(self.cromossomo))
+        filho1 = outro_individuo.cromossomo[:corte] + self.cromossomo[corte:]
+        filho2 = self.cromossomo[:corte] + outro_individuo.cromossomo[corte:]
 
         return [
             Individuo(self.cidades, self.rotas, self.caminho, self.centro_distribuicao, self.geracao + 1, filho1),
@@ -64,27 +112,41 @@ class Individuo:
         ]
 
     def mutacao(self, taxa_mutacao):
+        """
+        Aplica mutação ao cromossomo com base na taxa de mutação fornecida.
+
+        Args:
+        - taxa_mutacao (float): Probabilidade de um gene sofrer mutação.
+
+        Returns:
+        - (Individuo): O próprio indivíduo com o cromossomo possivelmente alterado.
+        """
         for i in range(len(self.cromossomo)):
             if random() < taxa_mutacao:
-                self.cromossomo[i] = round((random() * (len(self.rotas) - 1)))
+                self.cromossomo[i] = round(random() * (len(self.rotas) - 1))
 
         self.nota_avaliacao = self.avaliacao()
         return self
 
     def cromossomo_to_view(self):
-        cromossomoView = []
-        for i in range(len(self.cromossomo)):
-            cromossomoView.append(self.cidades[self.cromossomo[i]].nome)
-        return cromossomoView
+        """
+        Converte o cromossomo para uma representação legível com os nomes das cidades.
+
+        Returns:
+        - (list): Lista de nomes das cidades na ordem do cromossomo.
+        """
+        return [self.cidades[i].nome for i in self.cromossomo]
 
     def print(self):
-
+        """
+        Exibe informações detalhadas do indivíduo, incluindo geração, cromossomo, distância e avaliação.
+        """
         print(
-            " ***** \n",
-            "Geração: %s \n" % self.geracao,
-            "Cromossomo: %s \n" % str(self.cromossomo_to_view()),
-            "Distância percorrida: %s \n" % self.distancia_percorrida,
-            "Cidades percorridas: %s \n" % self.cidades_percorridas,
-            "Avaliação: %s \n" % self.nota_avaliacao,
-            "***** \n",
+            f" ***** \n"
+            f" Geração: {self.geracao}\n"
+            f" Cromossomo: {self.cromossomo_to_view()}\n"
+            f" Distância percorrida: {self.distancia_percorrida}\n"
+            f" Cidades percorridas: {self.cidades_percorridas}\n"
+            f" Avaliação: {self.nota_avaliacao}\n"
+            f" ***** \n"
         )

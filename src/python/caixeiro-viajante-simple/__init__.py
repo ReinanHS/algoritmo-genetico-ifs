@@ -1,6 +1,6 @@
 from cidade import Cidade
 from ag import AlgoritmoGenetico
-import matplotlib.pyplot as plt
+from view import Estatistica
 
 cidades = [
     Cidade("X"),
@@ -24,16 +24,30 @@ rotas_entrega = [2, 3, 5]
 centro_distribuicao = 0
 
 taxa_mutacao = 0.05
-numero_geracoes = 100
-tamanho_populacao = 16
+numero_geracoes = 1000
+tamanho_populacao = 20
 debug_mode = True
 
-ag = AlgoritmoGenetico(tamanho_populacao, debug_mode)
-ag.resolver(taxa_mutacao, numero_geracoes, cidades, rotas, rotas_entrega, centro_distribuicao)
+ag = AlgoritmoGenetico(
+    tamanho_populacao=tamanho_populacao,
+    taxa_mutacao=taxa_mutacao,
+    debug_mode=debug_mode,
+)
+
+ag.resolver(
+    numero_geracoes=numero_geracoes,
+    cidades=cidades,
+    rotas=rotas,
+    caminho=rotas_entrega,
+    centro_distribuicao=centro_distribuicao,
+)
 
 print("\n\n O melhor resultado: \n")
 ag.melhor_solucao.print()
 
-plt.plot(ag.lista_solucoes)
-plt.title("Acompanhamento dos valores")
-plt.show()
+Estatistica.mostrar_estatistica(
+    algoritmo_genetico=ag,
+    cidades=cidades,
+    rotas=rotas,
+    gerar_gif=False,
+)
