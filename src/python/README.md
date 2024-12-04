@@ -57,5 +57,5 @@ Para executar os testes disponíveis neste projeto, siga os passos abaixo:
    ```
 2. Após a instalação, execute os testes com o seguinte comando:
    ```bash
-   pytest
+   pytest # OU pytest src/python
    ```
