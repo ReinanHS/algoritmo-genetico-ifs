@@ -1,0 +1,4 @@
+src/__pycache__
+src/*.egg-info
+src/delivery_ag/.cache
+src/delivery_ag/*.gif
