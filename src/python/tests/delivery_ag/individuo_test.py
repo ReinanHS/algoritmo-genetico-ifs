@@ -69,8 +69,8 @@ class TestIndividuo(unittest.TestCase):
             cromossomo=[4, 1, 0, 1, 0, 4]
         )
         nota = individuo.avaliacao()
-        self.assertEqual(1590, nota)
-        self.assertEqual(1090, individuo.distancia_percorrida)
+        self.assertEqual(20390, nota)
+        self.assertEqual(10090, individuo.distancia_percorrida)
         self.assertEqual(0, individuo.cidades_percorridas)
 
     def test_avaliacao_caminho_ruim(self):
