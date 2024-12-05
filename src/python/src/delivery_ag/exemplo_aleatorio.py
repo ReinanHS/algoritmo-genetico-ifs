@@ -1,30 +1,39 @@
+from random import random
+
 from src.delivery_ag.cidade import Cidade
 from src.delivery_ag.ag import AlgoritmoGenetico
 from src.delivery_ag.view import Estatistica
 
-cidades = [
-    Cidade("X"),
-    Cidade("A"),
-    Cidade("B"),
-    Cidade("C"),
-    Cidade("D"),
-    Cidade("E"),
-]
+cidades = []
+rotas = []
 
-rotas = [
-    [-1, 30, 50, 20, -1, -1],
-    [30, -1, 10, -1, -1, -1],
-    [50, 40, -1, 15, 30, 20],
-    [20, -1, 15, -1, -1, -1],
-    [-1, -1, 30, -1, -1, -1],
-    [-1, -1, 20, -1, -1, -1],
-]
+for i in range(10):
+    cidades.append(Cidade(nome='Cidade {}'.format(i)))
 
-rotas_entrega = [2, 3, 5]
+for i in cidades:
+    rota = []
+
+    for j in cidades:
+        if random() < 0.3:
+            rota.append(-1)
+        else:
+            rota.append(round(random() * 200) + 1)
+
+    rotas.append(rota)
+
+rotas_entrega = []
+
+for i in range(round(len(cidades) / 2)):
+    rotas_entrega.append(
+        round(
+            random() * (len(cidades) - 1)
+        ) + 1
+    )
+
 centro_distribuicao = 0
 
 taxa_mutacao = 0.05
-numero_geracoes = 1000
+numero_geracoes = 400
 tamanho_populacao = 20
 debug_mode = False
 
