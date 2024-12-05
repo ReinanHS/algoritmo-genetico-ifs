@@ -1,7 +1,7 @@
 import unittest
 import random
 
-from delivery_ag.cidade import Cidade
+from src.delivery_ag.cidade import Cidade
 from src.delivery_ag.individuo import Individuo
 
 
