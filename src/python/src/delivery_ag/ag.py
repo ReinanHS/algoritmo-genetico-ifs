@@ -86,7 +86,7 @@ class AlgoritmoGenetico:
         Soma as notas de avaliação de todos os indivíduos na população.
 
         Returns:
-        - (float): Soma das avaliações.
+        - (int): Soma das avaliações.
         """
         return sum(individuo.nota_avaliacao for individuo in self.populacao)
 
