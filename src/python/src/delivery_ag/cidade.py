@@ -7,7 +7,7 @@ class Cidade:
     - nome (str): O nome da cidade.
     """
 
-    def __init__(self, nome : str):
+    def __init__(self, nome: str):
         """
         Inicializa uma nova instância da classe Cidade.
 

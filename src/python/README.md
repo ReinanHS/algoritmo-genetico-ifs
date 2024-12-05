@@ -53,9 +53,12 @@ Para executar os testes disponíveis neste projeto, siga os passos abaixo:
 
 1. Instale o pacote no modo de desenvolvimento:
    ```bash
+   pip install -r src/python/requirements.txt
    pip install -e .
    ```
 2. Após a instalação, execute os testes com o seguinte comando:
    ```bash
-   pytest # OU pytest src/python
+   pytest src/python
+   pylint src/python/**/*.py
+   autopep8 --recursive --in-place --aggressive --aggressive src/python
    ```

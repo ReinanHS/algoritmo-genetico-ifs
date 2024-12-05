@@ -1,23 +1,36 @@
+import os
+
 import matplotlib.pyplot as plt
 import networkx as nx
-import os
 from PIL import Image
+
 
 class Estatistica:
     @staticmethod
-    def mostrar_estatistica(algoritmo_genetico, cidades, rotas, gerar_gif = False):
-        plt.plot([individuo.nota_avaliacao for individuo in algoritmo_genetico.melhores_solucoes_geracao])
+    def mostrar_estatistica(
+            algoritmo_genetico,
+            cidades,
+            rotas,
+            gerar_gif=False):
+        plt.plot(
+            [individuo.nota_avaliacao for individuo in algoritmo_genetico.melhores_solucoes_geracao])
         plt.title("Acompanhamento dos valores")
         plt.show()
 
         pos = ViewGraphEvolution.criar_estrutura_desenho(cidades, rotas)
-        view = ViewGraph(cidades, rotas, algoritmo_genetico.melhor_solucao, pos)
+        view = ViewGraph(
+            cidades,
+            rotas,
+            algoritmo_genetico.melhor_solucao,
+            pos)
         view.desenhar(algoritmo_genetico.melhor_solucao.geracao).show()
 
         if gerar_gif:
-            ViewGraphEvolution(cidades, rotas, algoritmo_genetico.melhores_solucoes_geracao)
+            ViewGraphEvolution(
+                cidades, rotas, algoritmo_genetico.melhores_solucoes_geracao)
 
         pass
+
 
 class ViewGraph:
     """
@@ -32,6 +45,7 @@ class ViewGraph:
     - pos: Posições das cidades no grafo para exibição gráfica.
     - graph: Objeto `networkx.Graph` representando o grafo.
     """
+
     def __init__(self, cidades, rotas, individuo, pos):
         """
         Inicializa o grafo com as cidades, rotas e o indivíduo a ser visualizado.
@@ -45,7 +59,8 @@ class ViewGraph:
         self.cidades = cidades
         self.rotas = rotas
         self.individuo = individuo
-        self.caminho_percorrido = [cidades[i].nome for i in individuo.cromossomo]
+        self.caminho_percorrido = [
+            cidades[i].nome for i in individuo.cromossomo]
         self.pos = pos
 
         self.graph = nx.Graph()
@@ -61,7 +76,10 @@ class ViewGraph:
         for i in range(len(self.rotas)):
             for j in range(len(self.rotas)):
                 if self.rotas[i][j] > 0:
-                    self.graph.add_edge(self.cidades[i].nome, self.cidades[j].nome, weight=self.rotas[i][j])
+                    self.graph.add_edge(
+                        self.cidades[i].nome,
+                        self.cidades[j].nome,
+                        weight=self.rotas[i][j])
 
     def desenhar(self, index):
         """
@@ -92,11 +110,23 @@ class ViewGraph:
 
         plt.figure(figsize=(10, 8))
 
-        nx.draw_networkx_edges(self.graph, self.pos, edgelist=normal_edges, alpha=0.7, edge_color='gray')
-        nx.draw_networkx_edges(self.graph, self.pos, edgelist=highlighted_edges, width=2.5, edge_color='red')
+        nx.draw_networkx_edges(
+            self.graph,
+            self.pos,
+            edgelist=normal_edges,
+            alpha=0.7,
+            edge_color='gray')
+        nx.draw_networkx_edges(
+            self.graph,
+            self.pos,
+            edgelist=highlighted_edges,
+            width=2.5,
+            edge_color='red')
 
-        edge_labels = {(u, v): d['weight'] for u, v, d in self.graph.edges(data=True)}
-        nx.draw_networkx_edge_labels(self.graph, self.pos, edge_labels=edge_labels)
+        edge_labels = {(u, v): d['weight']
+                       for u, v, d in self.graph.edges(data=True)}
+        nx.draw_networkx_edge_labels(
+            self.graph, self.pos, edge_labels=edge_labels)
 
         nx.draw(
             self.graph,
@@ -140,6 +170,7 @@ class ViewGraphEvolution:
     - rotas: Matriz de adjacência representando as distâncias entre as cidades.
     - melhores_resultados: Lista de indivíduos com as melhores avaliações ao longo das gerações.
     """
+
     def __init__(self, cidades, rotas, melhores_resultados):
         """
         Inicializa a classe e gera a evolução gráfica.
@@ -215,7 +246,10 @@ class ViewGraphEvolution:
         Returns:
         - (list): Lista de indivíduos únicos.
         """
-        resultados = sorted(resultados, key=lambda individuo: individuo.nota_avaliacao, reverse=True)
+        resultados = sorted(
+            resultados,
+            key=lambda individuo: individuo.nota_avaliacao,
+            reverse=True)
 
         resultados_filtrados = []
         contador_repeticoes = 0

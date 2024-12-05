@@ -1,5 +1,6 @@
 from random import random
 
+
 class Individuo:
     """
     Representa um indivíduo no algoritmo genético.
@@ -20,7 +21,15 @@ class Individuo:
     - cidades_percorridas (int): Número de cidades diferentes visitadas.
     - nota_avaliacao (float): Avaliação da qualidade da rota.
     """
-    def __init__(self, cidades, rotas, caminho, centro_distribuicao, geracao=0, cromossomo=None):
+
+    def __init__(
+            self,
+            cidades,
+            rotas,
+            caminho,
+            centro_distribuicao,
+            geracao=0,
+            cromossomo=None):
         """
         Inicializa o indivíduo com os parâmetros fornecidos.
 
@@ -107,9 +116,20 @@ class Individuo:
         filho2 = self.cromossomo[:corte] + outro_individuo.cromossomo[corte:]
 
         return [
-            Individuo(self.cidades, self.rotas, self.caminho, self.centro_distribuicao, self.geracao + 1, filho1),
-            Individuo(self.cidades, self.rotas, self.caminho, self.centro_distribuicao, self.geracao + 1, filho2)
-        ]
+            Individuo(
+                self.cidades,
+                self.rotas,
+                self.caminho,
+                self.centro_distribuicao,
+                self.geracao + 1,
+                filho1),
+            Individuo(
+                self.cidades,
+                self.rotas,
+                self.caminho,
+                self.centro_distribuicao,
+                self.geracao + 1,
+                filho2)]
 
     def mutacao(self, taxa_mutacao):
         """

@@ -1,4 +1,5 @@
 from random import random
+
 from src.delivery_ag.individuo import Individuo
 
 
@@ -17,7 +18,11 @@ class AlgoritmoGenetico:
     - debug_mode (bool): Ativa/desativa mensagens de depuração.
     """
 
-    def __init__(self, tamanho_populacao=20, taxa_mutacao=0.5, debug_mode=False):
+    def __init__(
+            self,
+            tamanho_populacao=20,
+            taxa_mutacao=0.5,
+            debug_mode=False):
         """
         Inicializa a classe com os parâmetros fornecidos.
 
@@ -34,7 +39,12 @@ class AlgoritmoGenetico:
         self.melhores_solucoes_geracao = []
         self.melhor_solucao = None
 
-    def inicializa_populacao(self, cidades, rotas, caminho, centro_distribuicao):
+    def inicializa_populacao(
+            self,
+            cidades,
+            rotas,
+            caminho,
+            centro_distribuicao):
         """
         Inicializa a população com indivíduos gerados aleatoriamente.
 
@@ -45,14 +55,21 @@ class AlgoritmoGenetico:
         - centro_distribuicao (list): Localização do centro de distribuição.
         """
         for _ in range(self.tamanho_populacao):
-            self.populacao.append(Individuo(cidades, rotas, caminho, centro_distribuicao))
+            self.populacao.append(
+                Individuo(
+                    cidades,
+                    rotas,
+                    caminho,
+                    centro_distribuicao))
         self.melhor_solucao = self.populacao[0]
 
     def ordena_populacao(self):
         """
         Ordena a população com base na nota de avaliação de cada indivíduo.
         """
-        self.populacao.sort(key=lambda individuo: individuo.nota_avaliacao, reverse=False)
+        self.populacao.sort(
+            key=lambda individuo: individuo.nota_avaliacao,
+            reverse=False)
 
     def melhor_individuo(self, individuo):
         """
@@ -151,7 +168,13 @@ class AlgoritmoGenetico:
                 return i
         return self.seleciona_pai()
 
-    def resolver(self, numero_geracoes, cidades, rotas, caminho, centro_distribuicao):
+    def resolver(
+            self,
+            numero_geracoes,
+            cidades,
+            rotas,
+            caminho,
+            centro_distribuicao):
         """
         Executa o algoritmo genético para resolver o problema.
 
