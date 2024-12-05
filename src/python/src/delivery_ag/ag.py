@@ -37,6 +37,7 @@ class AlgoritmoGenetico:
 
         self.populacao = []
         self.melhores_solucoes_geracao = []
+        self.historico_populacao = []
         self.melhor_solucao = None
 
     def inicializa_populacao(
@@ -62,6 +63,7 @@ class AlgoritmoGenetico:
                     caminho,
                     centro_distribuicao))
         self.melhor_solucao = self.populacao[0]
+        self.historico_populacao = self.populacao
 
     def ordena_populacao(self):
         """
@@ -213,6 +215,8 @@ class AlgoritmoGenetico:
             self.ordena_populacao()
             self.gerar_probabilidade()
             self.visualiza_geracao()
+
+            self.historico_populacao = self.historico_populacao + self.populacao
 
             melhor = self.populacao[0]
             self.melhor_individuo(melhor)

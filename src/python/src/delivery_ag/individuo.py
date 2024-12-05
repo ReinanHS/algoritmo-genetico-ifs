@@ -81,7 +81,7 @@ class Individuo:
             destino = self.cromossomo[i + 1]
             distancia = self.rotas[origem][destino]
 
-            soma_distancia += 500 if distancia == -1 else distancia
+            soma_distancia += 5000 if distancia == -1 else distancia
 
             if origem in self.caminho and origem not in cidades_visitadas:
                 cidades_visitadas.append(origem)
@@ -89,15 +89,13 @@ class Individuo:
         self.distancia_percorrida = soma_distancia
         self.cidades_percorridas = len(cidades_visitadas)
 
-        # Penalidades por não visitar todas as cidades obrigatórias
         cidades_faltando = len(self.caminho) - len(cidades_visitadas)
         soma_distancia += 100 * cidades_faltando
 
-        # Penalidades por não começar ou terminar no centro de distribuição
         if self.cromossomo[0] != self.centro_distribuicao:
-            soma_distancia += 100
+            soma_distancia += 5000
         if self.cromossomo[-1] != self.centro_distribuicao:
-            soma_distancia += 100
+            soma_distancia += 5000
 
         return soma_distancia
 

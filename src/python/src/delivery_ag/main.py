@@ -26,7 +26,7 @@ centro_distribuicao = 0
 taxa_mutacao = 0.05
 numero_geracoes = 1000
 tamanho_populacao = 20
-debug_mode = True
+debug_mode = False
 
 ag = AlgoritmoGenetico(
     tamanho_populacao=tamanho_populacao,

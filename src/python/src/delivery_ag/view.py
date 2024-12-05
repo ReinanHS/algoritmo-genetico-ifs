@@ -12,10 +12,6 @@ class Estatistica:
             cidades,
             rotas,
             gerar_gif=False):
-        plt.plot(
-            [individuo.nota_avaliacao for individuo in algoritmo_genetico.melhores_solucoes_geracao])
-        plt.title("Acompanhamento dos valores")
-        plt.show()
 
         pos = ViewGraphEvolution.criar_estrutura_desenho(cidades, rotas)
         view = ViewGraph(
@@ -24,6 +20,16 @@ class Estatistica:
             algoritmo_genetico.melhor_solucao,
             pos)
         view.desenhar(algoritmo_genetico.melhor_solucao.geracao).show()
+
+        plt.plot(
+            [individuo.nota_avaliacao for individuo in algoritmo_genetico.historico_populacao])
+        plt.title("Histórico de todos os indivíduos")
+        plt.show()
+
+        plt.plot(
+            [individuo.nota_avaliacao for individuo in algoritmo_genetico.melhores_solucoes_geracao])
+        plt.title("Melhores indivíduos por geração")
+        plt.show()
 
         if gerar_gif:
             ViewGraphEvolution(
