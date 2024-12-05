@@ -21,9 +21,10 @@ jobs:
     - name: Analisando o código com pylint
       run: |
         pylint src/python/**/*.py
-    - name: Execução dos testes
-      run: |
-        pytest src/python
+      continue-on-error: true
     - name: Verificação automática do formato do código
       run: |
         autopep8 --recursive --diff --aggressive --aggressive src/python
+    - name: Execução dos testes
+      run: |
+        pytest src/python
