@@ -2,7 +2,7 @@ import unittest
 
 from src.delivery_ag.individuo import Individuo
 from src.delivery_ag.ag import AlgoritmoGenetico
-from delivery_ag.cidade import Cidade
+from src.delivery_ag.cidade import Cidade
 
 
 class TestAlgoritmoGenetico(unittest.TestCase):
@@ -140,6 +140,49 @@ class TestAlgoritmoGenetico(unittest.TestCase):
         indice_pai = self.ag.seleciona_pai()
         self.assertTrue(0 <= indice_pai < len(self.ag.populacao))
 
+    def test_seleciona_pai_com_maior_probabilidade(self):
+        self.ag.inicializa_populacao(
+            cidades=self.cidades,
+            rotas=self.rotas,
+            caminho=self.caminho,
+            centro_distribuicao=self.centro_distribuicao,
+        )
+
+        probabilidades = [
+            50,
+            5.55,
+            5.55,
+            5.55,
+            5.55,
+            5.55,
+            5.55,
+            5.55,
+            5.55,
+            5.55]
+        for i, ind in enumerate(self.ag.populacao):
+            ind.probabilidade = probabilidades[i % len(probabilidades)]
+
+        selecoes = {i: 0 for i in range(len(self.ag.populacao))}
+        numero_iteracoes = 10000
+
+        for _ in range(numero_iteracoes):
+            indice_pai = self.ag.seleciona_pai()
+            selecoes[indice_pai] += 1
+
+        frequencias = {i: (selecoes[i] /
+                           numero_iteracoes) *
+                       100 for i in range(len(self.ag.populacao))}
+
+        tolerancia = 2
+        for i in range(len(probabilidades)):
+            self.assertAlmostEqual(
+                frequencias[i],
+                probabilidades[i % len(probabilidades)],
+                delta=tolerancia,
+                msg=f"Frequência observada para o índice {i} ({frequencias[i]:.2f}%) "
+                f"não está próxima da probabilidade esperada ({probabilidades[i]}%)"
+            )
+
     def test_resolver_com_um_valor_baixo(self):
         melhor_solucao = self.ag.resolver(
             numero_geracoes=100,
@@ -149,6 +192,8 @@ class TestAlgoritmoGenetico(unittest.TestCase):
             centro_distribuicao=self.centro_distribuicao,
         )
         self.assertIsInstance(melhor_solucao, Individuo)
+        self.assertEqual(len(self.ag.populacao), 10)
+
         self.assertLess(melhor_solucao.nota_avaliacao, 400)
 
 

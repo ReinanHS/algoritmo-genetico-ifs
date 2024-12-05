@@ -163,6 +163,7 @@ class AlgoritmoGenetico:
             cumulativas.append(soma)
 
         numero_aleatorio = round(random() * 100)
+
         for i, limite in enumerate(cumulativas):
             if numero_aleatorio < limite:
                 return i
