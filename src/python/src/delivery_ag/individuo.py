@@ -142,7 +142,7 @@ class Individuo:
         - (Individuo): O próprio indivíduo com o cromossomo possivelmente alterado.
         """
         for i in range(len(self.cromossomo)):
-            if random() < taxa_mutacao:
+            if random() <= taxa_mutacao:
                 self.cromossomo[i] = round(random() * (len(self.rotas) - 1))
 
         self.nota_avaliacao = self.avaliacao()
