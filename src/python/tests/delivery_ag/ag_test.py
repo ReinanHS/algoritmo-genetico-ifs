@@ -196,6 +196,22 @@ class TestAlgoritmoGenetico(unittest.TestCase):
 
         self.assertLess(melhor_solucao.nota_avaliacao, 400)
 
+    def test_resolver_com_um_valor_preciso(self):
+        self.ag = AlgoritmoGenetico(
+            tamanho_populacao=20,
+            taxa_mutacao=0.05,
+            debug_mode=False)
+
+        for _ in range(100):
+            melhor_solucao = self.ag.resolver(
+                numero_geracoes=1000,
+                cidades=self.cidades,
+                rotas=self.rotas,
+                caminho=self.caminho,
+                centro_distribuicao=self.centro_distribuicao,
+            )
+            self.assertEqual(melhor_solucao.nota_avaliacao, 125)
+
 
 if __name__ == '__main__':
     unittest.main()
