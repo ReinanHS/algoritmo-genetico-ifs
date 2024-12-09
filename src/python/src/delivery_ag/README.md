@@ -39,3 +39,9 @@ Conforme solicitado na atividade, foi criado um cenário onde as informações s
 ```shell
 python src/python/src/delivery_ag/exemplo_aleatorio.py
 ```
+
+Veja o exemplo de execução:
+
+![image](https://github.com/user-attachments/assets/badd9073-9655-44fa-a7ce-6fb4c6383ce5)
+
+
