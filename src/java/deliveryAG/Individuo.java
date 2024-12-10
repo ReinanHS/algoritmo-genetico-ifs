@@ -1,5 +1,4 @@
 package deliveryAG;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,7 +17,7 @@ public class Individuo {
 
     private static final Random RANDOM = new Random();
 
-    // Construtor
+
     public Individuo(List<deliveryAG.Cidade> cidades, int[][] rotas, List<Integer> caminho, int centroDistribuicao, int geracao, List<Integer> cromossomo) {
         this.cidades = cidades;
         this.rotas = rotas;
@@ -102,7 +101,7 @@ public class Individuo {
         return this;
     }
 
-    // Converte o cromossomo para uma visualização com os nomes das cidades
+
     public List<String> cromossomoToView() {
         List<String> nomesCidades = new ArrayList<>();
         for (int indice : cromossomo) {
@@ -122,7 +121,7 @@ public class Individuo {
         System.out.println(" ***** ");
     }
 
-    // Getters
+
     public double getNotaAvaliacao() {
         return notaAvaliacao;
     }
@@ -131,7 +130,7 @@ public class Individuo {
         return cromossomo;
     }
 
-    // Métodos adicionais para corrigir os erros
+
     public int getGeracao() {
         return geracao;
     }

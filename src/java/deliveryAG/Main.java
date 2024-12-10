@@ -1,5 +1,4 @@
 package deliveryAG;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,7 +43,7 @@ public class Main {
                 tamanhoPopulacao, taxaMutacao, debugMode
         );
 
-        // Resolve o problema
+
         ag.resolver(
                 numeroGeracoes,
                 cidades,
@@ -53,17 +52,9 @@ public class Main {
                 centroDistribuicao
         );
 
-        // Exibe o melhor resultado encontrado
-        //System.out.println("\n\nO melhor resultado: \n");
+
 
        ag.visualizaMelhorGeracao();
-       //ag.visualizaGeracao();
 
-
-
-        // Exibe estatísticas (caso exista a classe Estatistica)
-       /* Estatistica.mostrarEstatistica(
-                ag, cidades, rotas, false // false indica que não será gerado um GIF
-        );*/
     }
 }
