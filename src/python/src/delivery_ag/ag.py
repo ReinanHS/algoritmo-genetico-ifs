@@ -1,6 +1,6 @@
 from random import random
 
-from src.delivery_ag.individuo import Individuo
+import individuo
 
 
 class AlgoritmoGenetico:
@@ -57,7 +57,7 @@ class AlgoritmoGenetico:
         """
         for _ in range(self.tamanho_populacao):
             self.populacao.append(
-                Individuo(
+                individuo.Individuo(
                     cidades,
                     rotas,
                     caminho,
