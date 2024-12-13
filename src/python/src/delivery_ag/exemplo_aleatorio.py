@@ -1,8 +1,8 @@
 from random import random
 
-from cidade import Cidade
-from ag import AlgoritmoGenetico
-from view import Estatistica
+from src.delivery_ag.cidade import Cidade
+from src.delivery_ag.ag import AlgoritmoGenetico
+from src.delivery_ag.view import Estatistica
 
 
 def gerar_cidades(numero_cidades: int = 10):
