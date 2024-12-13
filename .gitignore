@@ -2,3 +2,5 @@
 src/__pycache__/
 src/python/.pytest_cache/
 .eggs/
+algoritmo-genetico-ifs.iml
+out/*
